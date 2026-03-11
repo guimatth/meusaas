@@ -1,15 +1,22 @@
+"use client";
+
+import { signIn } from "next-auth/react";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
 
       {/* NAVBAR */}
       <nav className="flex justify-between items-center px-8 py-5 border-b border-gray-100">
-        <span className="text-xl font-bold text-indigo-600">MGuissoCompany</span>
+        <span className="text-xl font-bold text-indigo-600">MeuSaaS</span>
         <div className="flex gap-6 text-sm text-gray-500">
           <a href="#features" className="hover:text-gray-900 transition">Features</a>
           <a href="#pricing" className="hover:text-gray-900 transition">Pricing</a>
         </div>
-        <button className="bg-indigo-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+        <button
+          onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+          className="bg-indigo-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+        >
           Começar grátis
         </button>
       </nav>
@@ -26,7 +33,10 @@ export default function Home() {
           Descreva aqui em uma frase o problema que você resolve. Simples, rápido e sem complicação.
         </p>
         <div className="flex gap-4">
-          <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+          <button
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+          >
             Começar grátis
           </button>
           <button className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-500 transition">
@@ -59,8 +69,6 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-center mb-4">Planos simples</h2>
         <p className="text-center text-gray-500 mb-16">Sem surpresas na fatura.</p>
         <div className="flex flex-col md:flex-row gap-8 max-w-3xl mx-auto">
-
-          {/* Free */}
           <div className="flex-1 bg-white rounded-2xl p-8 border border-gray-200">
             <h3 className="text-lg font-semibold mb-1">Free</h3>
             <p className="text-4xl font-extrabold mb-6">R$0<span className="text-base font-normal text-gray-400">/mês</span></p>
@@ -69,12 +77,13 @@ export default function Home() {
               <li>✅ Acesso básico</li>
               <li>❌ IA desativada</li>
             </ul>
-            <button className="w-full border border-gray-300 py-2 rounded-lg text-sm font-semibold hover:border-gray-500 transition">
+            <button
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              className="w-full border border-gray-300 py-2 rounded-lg text-sm font-semibold hover:border-gray-500 transition"
+            >
               Começar grátis
             </button>
           </div>
-
-          {/* Pro */}
           <div className="flex-1 bg-indigo-600 text-white rounded-2xl p-8 shadow-lg">
             <h3 className="text-lg font-semibold mb-1">Pro</h3>
             <p className="text-4xl font-extrabold mb-6">R$49<span className="text-base font-normal opacity-60">/mês</span></p>
@@ -83,17 +92,19 @@ export default function Home() {
               <li>✅ Acesso completo</li>
               <li>✅ IA ativada</li>
             </ul>
-            <button className="w-full bg-white text-indigo-600 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-50 transition">
+            <button
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              className="w-full bg-white text-indigo-600 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-50 transition"
+            >
               Assinar Pro
             </button>
           </div>
-
         </div>
       </section>
 
       {/* FOOTER */}
       <footer className="text-center py-10 text-sm text-gray-400 border-t border-gray-100">
-        © 2025 MGuissoCompany. Feito com Next.js e Tailwind.
+        © 2025 MeuSaaS. Feito com Next.js e Tailwind.
       </footer>
 
     </main>
