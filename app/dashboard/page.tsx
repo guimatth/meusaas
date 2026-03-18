@@ -1,21 +1,19 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { useRouter, useSearchParams, redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
 
-export default function Dashboard() {
+function DashboardContent() {
   const { data: session, status } = useSession();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (status === "unauthenticated") redirect("/");
     if (searchParams.get("success")) setMessage("✅ Assinatura realizada com sucesso!");
     if (searchParams.get("canceled")) setMessage("❌ Pagamento cancelado.");
-  }, [status, searchParams]);
+  }, [searchParams]);
 
   async function handleUpgrade() {
     setLoading(true);
@@ -26,11 +24,13 @@ export default function Dashboard() {
   }
 
   if (status === "loading") return <div className="min-h-screen flex items-center justify-center">Carregando...</div>;
+  if (status === "unauthenticated") {
+    window.location.href = "/";
+    return null;
+  }
 
   return (
     <main className="min-h-screen bg-gray-50">
-
-      {/* NAVBAR */}
       <nav className="flex justify-between items-center px-8 py-5 bg-white border-b border-gray-100">
         <span className="text-xl font-bold text-indigo-600">MeuSaaS</span>
         <div className="flex items-center gap-4">
@@ -44,7 +44,6 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      {/* CONTEÚDO */}
       <div className="max-w-4xl mx-auto px-8 py-16">
         <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
         <p className="text-gray-500 mb-4">Bem-vindo à sua área exclusiva.</p>
@@ -71,7 +70,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* UPGRADE */}
         <div className="bg-indigo-600 text-white rounded-2xl p-8">
           <h2 className="text-xl font-bold mb-2">Faça upgrade para o Pro</h2>
           <p className="opacity-80 text-sm mb-6">Usos ilimitados, IA ativada e acesso completo por R$49/mês.</p>
@@ -83,8 +81,15 @@ export default function Dashboard() {
             {loading ? "Redirecionando..." : "Assinar Pro →"}
           </button>
         </div>
-
       </div>
     </main>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Carregando...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
